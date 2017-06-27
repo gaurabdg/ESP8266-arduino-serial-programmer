@@ -1,0 +1,50 @@
+	
+	.button 
+	{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    }
+
+    .inputfile 
+    {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+    }
+
+   .inputfile + label 
+    {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+    }
+
+.inputfile:focus + label,
+.inputfile + label:hover 
+{
+    background-color: red;
+}
+
+.inputfile + label 
+{
+	cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile:focus + label 
+{
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
