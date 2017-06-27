@@ -1,0 +1,227 @@
+.js .inputfile 
+{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label 
+{
+    max-width: 80%;
+    font-size: 1.25rem;
+    /* 20px */
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    /* 10px 20px */
+}
+
+.no-js .inputfile + label 
+{
+    display: none;
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label 
+{
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.inputfile + label * {
+    /* pointer-events: none; */
+    /* in case of FastClick lib use */
+}
+
+.inputfile + label svg 
+{
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    /* 4px */
+    margin-right: 0.25em;
+    /* 4px */
+}
+
+
+
+.inputfile_fin + label {
+    color: #d3394c;
+}
+
+.inputfile_fin + label {
+    border: 1px solid #d3394c;
+    background-color: #f1e5e6;
+    padding: 0;
+}
+
+.inputfile_fin:focus + label,
+.inputfile_fin.has-focus + label,
+.inputfile_fin + label:hover {
+    border-color: #722040;
+}
+
+.inputfile_fin + label span,
+.inputfile_fin + label strong {
+    padding: 0.625rem 1.25rem;
+    /* 10px 20px */
+}
+
+.inputfile_fin + label span {
+    width: 200px;
+    min-height: 2em;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.inputfile_fin + label strong {
+    height: 100%;
+    color: #f1e5e6;
+    background-color: #d3394c;
+    display: inline-block;
+}
+
+.inputfile_fin:focus + label strong,
+.inputfile_fin.has-focus + label strong,
+.inputfile_fin + label:hover strong {
+    background-color: #722040;
+}
+
+@media screen and (max-width: 50em) {
+	.inputfile_fin + label strong {
+		display: block;
+	}
+}
+
+
+/*********FONTS' CLASS**********/
+
+@font-face {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'codropsicons';
+    src: url('../fonts/codropsicons/codropsicons.eot');
+    src: url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'), url('../fonts/codropsicons/codropsicons.woff') format('woff'), url('../fonts/codropsicons/codropsicons.ttf') format('truetype'), url('../fonts/codropsicons/codropsicons.svg#codropsicons') format('svg');
+}
+
+*,
+*:after,
+*:before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: '';
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+body {
+    font-family: Avenir, 'Helvetica Neue', 'Lato', 'Segoe UI', Helvetica, Arial, sans-serif;
+    color: #4b0f31;
+    background-color: #f1e5e6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    outline: none;
+    color: #d3394c;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    color: #722040;
+}
+
+.hidden {
+    position: absolute;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/**************HEADER CLASS**************/
+
+.codrops-header {
+    padding: 2em 1em 4em;
+    text-align: center;
+}
+
+.codrops-header h1 {
+    margin: 0.5em 0 0;
+    letter-spacing: -1px;
+    font-size: 3em;
+    line-height: 1;
+}
+
+.codrops-header h1 span {
+    display: block;
+    padding: 0.5em 0 1em;
+    color: #999;
+    font-weight: normal;
+    font-size: 0.45em;
+}
+
+
+/**************CONTENT CLASS**************/
+
+.content {
+    width: 100%;
+    max-width: 560px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 0 3em 0;
+}
+
+
+.box {
+    background-color: #dfc8ca;
+    padding: 2.25rem 1.25rem;
+}
+
+.box + .box {
+    margin-top: 2.5rem;
+}
+
+.button {
+ background-color: #CD5C5C;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  
+    cursor: pointer;
+    position:relative;
+    top: 20px;
+    
+
+}
+
+.button:hover {
+    background-color: #f44336;
+    color: white;
+}
+
