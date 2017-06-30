@@ -8,7 +8,7 @@ HEXparser::HEXparser()
 	address[1] = 0x00;
 }
 
-
+// length = number of data bytes
 int HEXparser::RecordLength(byte* record)
 {
 	char holder[3];
@@ -20,6 +20,7 @@ int HEXparser::RecordLength(byte* record)
 	return strtol(holder, 0, 16);
 }
 
+// the address where the corresponding record data are to be allocated in memory.
 void HEXparser::RecordAddress(byte* record)
 {
 	char holder[3];
@@ -35,8 +36,7 @@ void HEXparser::RecordAddress(byte* record)
 	address[1] = strtol(buff, 0, 16); 
 }
 
-
-
+// data or end of file
 int HEXparser::RecordType(byte* record)
 {
 	char holder[3];
@@ -48,9 +48,10 @@ int HEXparser::RecordType(byte* record)
 	return strtol(holder, 0, 16);	
 }
 
-byte* HEXparser::extractData(byte* record, int len)
+// each record is passed
+void HEXparser::extractData(byte* record, int len)
 {
-	int begin = 9; 
+	int begin = 9;             // start position of data in record
 	int end = (len*2) + begin; //data is in sets of 2
 	char holder[3];
 	holder[2] = '\0';
@@ -65,6 +66,7 @@ byte* HEXparser::extractData(byte* record, int len)
 	}
 }
 
+// check record type||chunk filled or not
 void HEXparser::FileEnd()
 {
 	address[1] += 0x40;
@@ -84,30 +86,34 @@ void HEXparser::ParseRecord(byte* record)
 {
 	recType = RecordType(record);
 
-	if(recType == 0)
+	if(recType == 0)//  data present
 	{
 		length = RecordLength(record);
 		extractData(record, length);
 
-		if(index == 128)
+		if(index == 128) // chunk full
 		{
-			address[1] += 0x40;
-
-			if(address[1] == 0)
+			if(!firstTime)
 			{
-					address[0] += 0x1;
+				address[1] += 0x40;   //update data address 
+
+				if(address[1] == 0)
+				{
+						address[0] += 0x1;
+				}
 			}
 
 			index = 0;
+			firstTime = false;
 		}
 	}
 
-	if(recType == 1)
+	if(recType == 1)// end of file
 	{
 		FileEnd();
 	}
 }
-
+/* Return calls to spiff/web server */
 byte* HEXparser::FetchRaw()
 {
 	return RawPage;
