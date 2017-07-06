@@ -87,3 +87,4 @@ byte UploadProtocol::SendParams(byte cmmnd, byte* params, int len)
 
   return WriteBytes(bytes, i + 2);
 }
+
