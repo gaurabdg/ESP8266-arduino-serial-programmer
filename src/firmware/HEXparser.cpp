@@ -123,3 +123,4 @@ byte* HEXparser::FetchAddress()
 {
 	return address;
 }
+
