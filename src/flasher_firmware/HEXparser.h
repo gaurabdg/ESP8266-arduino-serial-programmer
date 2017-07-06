@@ -2,7 +2,7 @@
 #define HEXparser_h
 #include "Arduino.h"
 
-class HEXparse
+class HEXparser
 {
 	public:
 		HEXparser();
