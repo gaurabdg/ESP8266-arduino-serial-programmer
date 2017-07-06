@@ -62,7 +62,7 @@ void HEXparser::extractData(byte* record, int len)
 		holder[1] = record[i+1];
 
 		RawPage[index] = strtol(holder, 0, 16);
-		index++;
+		index++;                  // keeping track of chunk size
 	}
 }
 
