@@ -4,8 +4,7 @@
 UploadProtocol::UploadProtocol(int reset)
 {
 	Serial.begin(115200);
-
-	pinMode(reset, OUTPUT)
+	pinMode(reset, OUTPUT);
 	int _reset = reset;
 }
 
@@ -37,6 +36,17 @@ int UploadProtocol::sync()
 	return SendCmmnd(0x30);
 }
 
+int UploadProtocol::setParams()
+{
+	byte params[] = { 0x86, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x03, 0xff, 0xff, 0xff, 0xff, 0x00, 0x04, 0x00, 0x00, 0x00, 0x80, 0x00}; //current support for optiboot/atmega328p
+	return SendParams(0x42, params, sizeof(params));
+}
+
+int UploadProtocol::setExtParams()
+{
+	byte extparams[] = { 0x05, 0x04, 0xd7, 0xc2, 0x00};
+	return SendParams(0x45, extparams, sizeof(extparams));
+}
 int UploadProtocol::startProgMode()
 {
 	return SendCmmnd(0x50);
@@ -88,3 +98,20 @@ byte UploadProtocol::SendParams(byte cmmnd, byte* params, int len)
   return WriteBytes(bytes, i + 2);
 }
 
+int UploadProtocol::WriteBytes(byte* bytes, int len)
+{
+	Serial.write(bytes, len);
+
+	byte inSync = Serial.read();
+	byte checkOK == Serial.read();
+	if(inSync = 0x14 && checkOK = 0x10)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+int UploadProtocol::closeProgMode()
+{
+	return SendCmmnd(0x51);
+}
