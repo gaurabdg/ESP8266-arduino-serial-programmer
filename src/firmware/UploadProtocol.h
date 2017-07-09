@@ -5,8 +5,8 @@
 class UploadProtocol
 {
 	public:
-		UploadProtocol(int reset);
-		void reset();
+		UploadProtocol(int reset);                   
+		void reset();                                  
 		void setup();
 		int sync();
 		int setParams();
@@ -23,7 +23,7 @@ class UploadProtocol
 
 		int _reset;
 
-}
+};
 
 #endif
 

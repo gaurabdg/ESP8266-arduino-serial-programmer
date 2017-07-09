@@ -8,6 +8,7 @@ UploadProtocol::UploadProtocol(int reset)
 	int _reset = reset;
 }
 
+// initiation functions to be flash-ready
 void UploadProtocol::DeviceSetup()
 {
 	reset();
@@ -17,6 +18,7 @@ void UploadProtocol::DeviceSetup()
 	startProgMode();
 }
 
+// just toggle it
 void UploadProtocol::reset() 
 {
   
@@ -31,11 +33,15 @@ void UploadProtocol::reset()
 
 }
 
+// send command to sync with the chip
 int UploadProtocol::sync()
 {
 	return SendCmmnd(0x30);
 }
 
+// set chip specific 'parameters'/configs
+// Right now only atmega328p with OptiBoot is supported.
+// *refer app note*
 int UploadProtocol::setParams()
 {
 	byte params[] = { 0x86, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x03, 0xff, 0xff, 0xff, 0xff, 0x00, 0x04, 0x00, 0x00, 0x00, 0x80, 0x00}; //current support for optiboot/atmega328p
@@ -47,11 +53,13 @@ int UploadProtocol::setExtParams()
 	byte extparams[] = { 0x05, 0x04, 0xd7, 0xc2, 0x00};
 	return SendParams(0x45, extparams, sizeof(extparams));
 }
+// send command to go into programmable mode
 int UploadProtocol::startProgMode()
 {
 	return SendCmmnd(0x50);
 }
 
+// get data input from HEX parser and flash it, chunk by chunk.
 void UploadProtocol::ProgramPage(byte* address, byte* data)
 {
 	byte init[] = { 0x64, 0x00, 0x80, 0x46 };
@@ -67,12 +75,14 @@ void UploadProtocol::ProgramPage(byte* address, byte* data)
 	Serial.write(0x20);      // SYNC_CRC_EOP                                   
 }
 
+// where to write?
 void UploadProtocol::setLoadAddress(byte high, byte low)
 {
 	byte buffer[] = {high, low};
 	return SendParams(0x55, buffer, sizeof(buffer));
 }
 
+// Function to send commands
 byte UploadProtocol::SendCmmnd(byte cmmnd) 
 {
 
@@ -80,6 +90,7 @@ byte UploadProtocol::SendCmmnd(byte cmmnd)
   return WriteBytes(bytes, 2);
 }
 
+// Function to send parameters
 byte UploadProtocol::SendParams(byte cmmnd, byte* params, int len) 
 {
 
@@ -98,6 +109,7 @@ byte UploadProtocol::SendParams(byte cmmnd, byte* params, int len)
   return WriteBytes(bytes, i + 2);
 }
 
+// To actually send bytes for command/parameter sending functions
 int UploadProtocol::WriteBytes(byte* bytes, int len)
 {
 	Serial.write(bytes, len);
@@ -111,6 +123,7 @@ int UploadProtocol::WriteBytes(byte* bytes, int len)
 	return 0;
 }
 
+// After flashing is done, exit programming mode!
 int UploadProtocol::closeProgMode()
 {
 	return SendCmmnd(0x51);
