@@ -105,12 +105,14 @@ void HEXparser::ParseRecord(byte* record)
 
 			index = 0;
 			firstTime = false;
+			ready = true;
 		}
 	}
 
 	if(recType == 1)// end of file
 	{
 		FileEnd();
+		ready = true;
 	}
 }
 /* Return calls to spiff/web server */
@@ -121,6 +123,12 @@ byte* HEXparser::FetchRaw()
 
 byte* HEXparser::FetchAddress()
 {
+	ready = false; // ready for next loop
 	return address;
+}
+
+bool HEXparser::CheckReady()  // check if flash-ready
+{
+	return ready;
 }
 
