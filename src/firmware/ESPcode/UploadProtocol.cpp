@@ -76,7 +76,7 @@ void UploadProtocol::ProgramPage(byte* address, byte* data)
 }
 
 // where to write?
-void UploadProtocol::setLoadAddress(byte high, byte low)
+int UploadProtocol::setLoadAddress(byte high, byte low)
 {
 	byte buffer[] = {high, low};
 	return SendParams(0x55, buffer, sizeof(buffer));
@@ -110,13 +110,13 @@ byte UploadProtocol::SendParams(byte cmmnd, byte* params, int len)
 }
 
 // To actually send bytes for command/parameter sending functions
-int UploadProtocol::WriteBytes(byte* bytes, int len)
+byte UploadProtocol::WriteBytes(byte* bytes, int len)
 {
 	Serial.write(bytes, len);
 
 	byte inSync = Serial.read();
-	byte checkOK == Serial.read();
-	if(inSync = 0x14 && checkOK = 0x10)
+	byte checkOK = Serial.read();
+	if(inSync == 0x14 && checkOK == 0x10)
 	{
 		return 1;
 	}

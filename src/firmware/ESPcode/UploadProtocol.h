@@ -7,7 +7,7 @@ class UploadProtocol
 	public:
 		UploadProtocol(int reset);                   
 		void reset();                                  
-		void setup();
+		void DeviceSetup();
 		int sync();
 		int setParams();
 		int setExtParams();

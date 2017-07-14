@@ -14,7 +14,7 @@ FTPserver::FTPserver(int reset)
 void FTPserver::Index(WiFiClient* client)
 {
   SPIFFS.begin();
-  File file = SPIFFS.open(" ", "r"); // to do
+  File file = SPIFFS.open("", "r"); // to do  if gzip or not 
 
   if(file) 
   {
@@ -23,7 +23,7 @@ void FTPserver::Index(WiFiClient* client)
     byte buffer[1024];
     int i = 0;
     
-    client->print(SendHeader()); 
+    client->print(SendHeader(false)); 
     while(fsize > 0) 
     {
       i = (fsize < 1024) ? fsize : 1024;
@@ -156,11 +156,14 @@ String FTPserver::URLparams(String s)
   
 }
 
-String FTPserver::SendHeader() 
+String FTPserver::SendHeader(bool gzip) 
 {
-
+if(gzip)
+  {
+    return String(F("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Encoding: gzip\r\nAccess-Control-Allow-Origin: *\r\nConnection: close\r\n\r\n"));
+  }
   return String(F("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nAccess-Control-Allow-Origin: *\r\nConnection: close\r\n\r\n"));
-    
+     
 }
 
 String FTPserver::SendFooter() 
@@ -173,7 +176,7 @@ String FTPserver::SendFooter()
 String FTPserver::ReadyToSendText(String text) 
 {
 
-  String html = SendHeader();
+  String html = SendHeader(false);
   html +=  text;
   html += SendFooter();  
 

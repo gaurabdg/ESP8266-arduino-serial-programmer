@@ -19,15 +19,15 @@ class FTPserver
 
 		void Index(WiFiClient* cl);
 		void FileList(WiFiClient* cl);
-		void DeleteFile(WiFiClient* cl);
-		void FlashFile(WiFiClient* cl);
-		void FileUpload(WiFiClient* cl);
+		void DeleteFile(WiFiClient* cl, String s);
+		void FlashFile(WiFiClient* cl, String s);
+		void FileUpload(WiFiClient* cl, String s);
 
 		const int optIndex = 0;
-		const int optFlash = 0;
-		const int optUpload = 0;
-		const int optDelete = 0;
-		const int optList = 0;
+		const int optFlash = 1;
+		const int optUpload = 2;
+		const int optDelete = 3;
+		const int optList = 4;
 
 
 	private:
@@ -35,6 +35,8 @@ class FTPserver
 
 		String HexDirectory();
 		void PublishPage(WiFiClient* cl, String x);
-		String SendHeader();
+		String SendHeader(bool y);
 		String SendFooter();
-}
+};
+
+#endif

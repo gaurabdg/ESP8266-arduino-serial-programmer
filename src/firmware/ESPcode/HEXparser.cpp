@@ -29,11 +29,11 @@ void HEXparser::RecordAddress(byte* record)
 
 	holder[0] = record[3];
 	holder[1] = record[4];
-	address[0] = strtol(buff, 0, 16);
+	address[0] = strtol(holder, 0, 16);
 
 	holder[0] = record[5];
 	holder[1] = record[6];
-	address[1] = strtol(buff, 0, 16); 
+	address[1] = strtol(holder, 0, 16); 
 }
 
 // data or end of file

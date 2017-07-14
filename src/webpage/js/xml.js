@@ -77,3 +77,16 @@ function flashFile(filename)
 	}
 	xhr.send();
 }
+
+function getFileRow(filename, filesize) 
+{
+	var row = document.createElement("div");
+	row.id = "Row";
+	row.appendChild(getTableCell(filename, "W200"));
+	row.appendChild(getTableCell(filesize, "W100"));
+	row.appendChild(getCmdOption("Flash", "W50", filename));
+	row.appendChild(getCmdOption("&nbsp;", "W50", filename));
+	row.appendChild(getCmdOption("Delete", "W50", filename));
+
+	return row;
+}
