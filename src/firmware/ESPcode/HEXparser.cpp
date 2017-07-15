@@ -8,6 +8,7 @@ HEXparser::HEXparser()
 	address[1] = 0x00;
 }
 
+
 // length = number of data bytes
 int HEXparser::RecordLength(byte* record)
 {
@@ -52,11 +53,11 @@ int HEXparser::RecordType(byte* record)
 void HEXparser::extractData(byte* record, int len)
 {
 	int begin = 9;             // start position of data in record
-	int end = (len*2) + begin; //data is in sets of 2
+	int end = (len * 2) + begin; //data is in sets of 2
 	char holder[3];
 	holder[2] = '\0';
 
-	for(int i=begin;begin<end;i=i+2)
+	for(int i = begin; i < end; i = i + 2)
 	{
 		holder[0] = record[i];
 		holder[1] = record[i+1];
@@ -75,7 +76,7 @@ void HEXparser::FileEnd()
 		address[0] += 0x1;
 	}
 
-	while(index<128)
+	while(index < 128)
 	{
 		RawPage[index] = 0xFF;
 		index++ ;
