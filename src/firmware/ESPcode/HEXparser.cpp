@@ -37,6 +37,7 @@ void HEXparser::RecordAddress(byte* record)
 	address[1] = strtol(holder, 0, 16); 
 }
 
+
 // data or end of file
 int HEXparser::RecordType(byte* record)
 {
