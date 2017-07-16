@@ -23,7 +23,7 @@ void FTPserver::Index(WiFiClient* client)
     byte buffer[1024];
     int i = 0;
     
-    client->print(SendHeader(false)); 
+    client->print(SendHeader(true)); //depends on encoding
     while(fsize > 0) 
     {
       i = (fsize < 1024) ? fsize : 1024;
@@ -181,8 +181,7 @@ String FTPserver::ReadyToSendText(String text)
   html += SendFooter();  
 
   return html;
-  
-}
+  }
 
 String FTPserver::HexDirectory() 
 {
