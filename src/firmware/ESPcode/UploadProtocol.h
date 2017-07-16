@@ -20,6 +20,7 @@ class UploadProtocol
 		byte SendCmmnd(byte cmmnd);
 		byte SendParams(byte cmmnd, byte* params, int len);
 		byte WriteBytes(byte* bytes, int len);
+    int WaitBruh(int c, int time);
 
 		int _reset;
 

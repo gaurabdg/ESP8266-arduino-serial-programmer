@@ -4,8 +4,12 @@
 UploadProtocol::UploadProtocol(int reset)
 {
 	Serial.begin(115200);
+	while(!Serial) // wait for serial port to connect
+	{
+		;
+	}
 	pinMode(reset, OUTPUT);
-	int _reset = reset;
+	_reset = reset;
 }
 
 // initiation functions to be flash-ready
@@ -44,7 +48,7 @@ int UploadProtocol::sync()
 // *refer app note*
 int UploadProtocol::setParams()
 {
-	byte params[] = { 0x86, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x03, 0xff, 0xff, 0xff, 0xff, 0x00, 0x04, 0x00, 0x00, 0x00, 0x80, 0x00}; //current support for optiboot/atmega328p
+	byte params[] = { 0x86, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x03, 0xff, 0xff, 0xff, 0xff, 0x00, 0x80, 0x04, 0x00, 0x00, 0x00, 0x80, 0x00 }; //current support for optiboot/atmega328p
 	return SendParams(0x42, params, sizeof(params));
 }
 
@@ -72,7 +76,10 @@ void UploadProtocol::ProgramPage(byte* address, byte* data)
 		Serial.write(data[i]);
 	}
 
-	Serial.write(0x20);      // SYNC_CRC_EOP                                   
+	Serial.write(0x20);      // SYNC_CRC_EOP   
+	WaitBruh(2, 1000);
+	Serial.read();
+	Serial.read();                                
 }
 
 // where to write?
@@ -114,6 +121,8 @@ byte UploadProtocol::WriteBytes(byte* bytes, int len)
 {
 	Serial.write(bytes, len);
 
+	WaitBruh(2, 1000);
+
 	byte inSync = Serial.read();
 	byte checkOK = Serial.read();
 	if(inSync == 0x14 && checkOK == 0x10)
@@ -127,4 +136,19 @@ byte UploadProtocol::WriteBytes(byte* bytes, int len)
 int UploadProtocol::closeProgMode()
 {
 	return SendCmmnd(0x51);
+}
+
+int UploadProtocol::WaitBruh(int count, int timeout)
+{
+	int timer = 0;
+	while(timer < timeout)
+	{
+		if(Serial.available() >= count)
+		{
+			return 1;
+		}
+
+		delay(1);
+		timer++;
+	}
 }
