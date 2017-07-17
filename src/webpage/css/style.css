@@ -1,38 +1,299 @@
+
+/* MAIN */
+
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+body 
+{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.42em;
+  color:#A7A1AE;
+  background-color:#1F2739;
+}
+
+h1 
+{
+  font-size:3em; 
+  font-weight: 300;
+  line-height:1em;
+  text-align: center;
+  color: #4DC3FA;
+}
+
+h2 
+{
+  font-size:1em; 
+  font-weight: 300;
+  text-align: center;
+  display: block;
+  line-height:1em;
+  padding-bottom: 2em;
+  color: #FB667A;
+}
+
+h2 a 
+{
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #FB667A;
+  text-decoration: none;
+}
+
+.blue { color: #185875; }
+.yellow 
+{ 
+    color: #FFF842; 
+    white-space: nowrap;
+    display: inline-block;
+}
+
+/* Buttons Class */
+
+@media (max-width: 800px) 
+{
+.container td:nth-child(4),
+.container th:nth-child(4) { display: none; }
+}
+
+/*Buttons for Upload & Cancel*/
+
+.draw-upborder 
+{
+  box-shadow: inset 0 0 0 4px #58afd1;
+  color: #58afd1;
+  transition: color 0.25s 0.08333s;
+  position: relative;
+}
+
+.draw-upborder::before, .draw-upborder::after 
+{
+  border: 0 solid transparent;
+  box-sizing: border-box;
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.draw-upborder::before 
+{
+  border-bottom-width: 4px;
+  border-left-width: 4px;
+}
+
+.draw-upborder::after 
+{
+  border-top-width: 4px;
+  border-right-width: 4px;
+}
+
+.draw-upborder:hover 
+{
+  color: #ffe593;
+}
+
+.draw-upborder:hover::before, .draw-upborder:hover::after 
+{
+  border-color: #ffe593;
+  transition: border-color 0s, width 0.25s, height 0.25s;
+  width: 100%;
+  height: 100%;
+}
+
+.draw-upborder:hover::before 
+{
+  transition-delay: 0s, 0s, 0.25s;
+}
+
+.draw-upborder:hover::after 
+{
+  transition-delay: 0s, 0.25s, 0s;
+}
+
+.draw-cancelborder 
+{
+  box-shadow: inset 0 0 0 4px #58afd1;
+  color: #58afd1;
+  transition: color 0.25s 0.08333s;
+  position: relative;
+}
+
+.draw-cancelborder::before, .draw-cancelborder::after 
+{
+  border: 0 solid transparent;
+  box-sizing: border-box;
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.draw-cancelborder::before 
+{
+  border-bottom-width: 4px;
+  border-left-width: 4px;
+}
+
+.draw-cancelborder::after 
+{
+  border-top-width: 4px;
+  border-right-width: 4px;
+}
+
+.draw-cancelborder:hover 
+{
+  color: #993d3d;
+}
+
+.draw-cancelborder:hover::before, .draw-cancelborder:hover::after 
+{
+  border-color: #993d3d;
+  transition: border-color 0s, width 0.25s, height 0.25s;
+  width: 100%;
+  height: 100%;
+}
+
+.draw-cancelborder:hover::before 
+{
+  transition-delay: 0s, 0s, 0.25s;
+}
+
+.draw-cancelborder:hover::after 
+{
+  transition-delay: 0s, 0.25s, 0s;
+}
+
+.btn 
+{
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1.5;
+  font: 700 1.2rem 'Roboto Slab', sans-serif;
+  padding: 1em 2em;
+  letter-spacing: 0.05rem;
+}
+
+.btn:focus 
+{
+  outline: 2px dotted #55d7dc;
+}
+
+/* Table Class  */
+
+.container th h1 
+{
+  font-weight: bold;
+  font-size: 1em;
+  text-align: left;
+  color: #185875;
+}
+
+.container td 
+{
+  font-weight: normal;
+  font-size: 1em;
+  -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+       -moz-box-shadow: 0 2px 2px -2px #0E1119;
+            box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+.container 
+{
+  text-align: left;
+  overflow: hidden;
+  width: 50%;
+  margin-left: 2cm;
+  display: table;
+  padding: 0 0 0 0;
+}
+
+.container td, .container th 
+{
+  padding-bottom: 2%;
+  padding-top: 2%;
+  padding-left: 2%;  
+}
+
+.selected 
+{
+color: red;
+}
+
+.container tr:nth-child(odd) 
+{
+  background-color: #323C50;
+  cursor: pointer;
+}
+
+.container tr:nth-child(even) 
+{
+  background-color: #2C3446;
+  cursor: pointer;
+}
+
+.container th 
+{
+  background-color: #1F2739;
+}
+
+.container td:first-child { color: #FB667A; }
+.container td:second-child { color: #d1b8bb; }
+
+
+.container tr:hover 
+{
+   background-color: #464A52;
+-webkit-box-shadow: 0 6px 6px -6px #0E1119;
+       -moz-box-shadow: 0 6px 6px -6px #0E1119;
+            box-shadow: 0 6px 6px -6px #0E1119;
+}
+
+/* Custom CSS to hide the ugly default file input button */
+
 .js .inputfile 
 {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 
 .inputfile + label 
 {
-    max-width: 80%;
-    font-size: 1.25rem;
-    /* 20px */
-    font-weight: 700;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: pointer;
-    display: inline-block;
-    overflow: hidden;
-    padding: 0.625rem 1.25rem;
-    /* 10px 20px */
+  max-width: 80%;
+  font-size: 1.25rem;
+  /* 20px */
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.625rem 1.25rem;
+  /* 10px 20px */
 }
 
 .no-js .inputfile + label 
 {
-    display: none;
+  display: none;
 }
 
 .inputfile:focus + label,
 .inputfile.has-focus + label 
 {
-    outline: 1px dotted #000;
-    outline: -webkit-focus-ring-color auto 5px;
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
 }
 
 .inputfile + label * {
@@ -42,151 +303,82 @@
 
 .inputfile + label svg 
 {
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-    fill: currentColor;
-    margin-top: -0.25em;
-    /* 4px */
-    margin-right: 0.25em;
-    /* 4px */
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: currentColor;
+  margin-top: -0.25em;
+  /* 4px */
+  margin-right: 0.25em;
+  /* 4px */
 }
 
 
 
-.inputfile_fin + label {
-    color: #d3394c;
+.inputfile_fin + label 
+{
+  color: #1F2739;
 }
 
-.inputfile_fin + label {
-    border: 1px solid #d3394c;
-    background-color: #f1e5e6;
-    padding: 0;
+.inputfile_fin + label 
+{
+  border: 1px solid #1F2739;
+  background-color: #f1e5e6;
+  padding: 0;
 }
 
 .inputfile_fin:focus + label,
 .inputfile_fin.has-focus + label,
-.inputfile_fin + label:hover {
-    border-color: #722040;
+.inputfile_fin + label:hover 
+{
+  border-color: #d17f38;
 }
 
 .inputfile_fin + label span,
-.inputfile_fin + label strong {
-    padding: 0.625rem 1.25rem;
+.inputfile_fin + label strong 
+{
+  padding: 0.625rem 1.25rem;
     /* 10px 20px */
 }
 
-.inputfile_fin + label span {
-    width: 200px;
-    min-height: 2em;
-    display: inline-block;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    vertical-align: top;
+.inputfile_fin + label span 
+{
+  width: 200px;
+  min-height: 2em;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: top;
 }
 
-.inputfile_fin + label strong {
-    height: 100%;
-    color: #f1e5e6;
-    background-color: #d3394c;
-    display: inline-block;
+.inputfile_fin + label strong 
+{
+  height: 100%;
+  color: #f1e5e6;
+  background-color: #1F2739;
+  display: inline-block;
 }
 
 .inputfile_fin:focus + label strong,
 .inputfile_fin.has-focus + label strong,
-.inputfile_fin + label:hover strong {
-    background-color: #722040;
+.inputfile_fin + label:hover strong 
+{
+  background-color: #d17f38;
 }
 
-@media screen and (max-width: 50em) {
-	.inputfile_fin + label strong {
+@media screen and (max-width: 50em) 
+{
+	.inputfile_fin + label strong 
+  {
 		display: block;
 	}
 }
 
+/*File Input Content */
 
-
-/*********FONTS CLASS**********/
-
-@font-face {
-    font-weight: normal;
-    font-style: normal;
-    font-family: 'codropsicons';
-    src: url('../fonts/codropsicons/codropsicons.eot');
-    src: url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'), url('../fonts/codropsicons/codropsicons.woff') format('woff'), url('../fonts/codropsicons/codropsicons.ttf') format('truetype'), url('../fonts/codropsicons/codropsicons.svg#codropsicons') format('svg');
-}
-
-*,
-*:after,
-*:before {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.clearfix:before,
-.clearfix:after {
-    display: table;
-    content: '';
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-body {
-    font-family: Avenir, 'Helvetica Neue', 'Lato', 'Segoe UI', Helvetica, Arial, sans-serif;
-    color: #4b0f31;
-    background-color: #f1e5e6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-    outline: none;
-    color: #d3394c;
-    text-decoration: none;
-}
-
-a:hover,
-a:focus {
-    color: #722040;
-}
-
-.hidden {
-    position: absolute;
-    overflow: hidden;
-    width: 0;
-    height: 0;
-    pointer-events: none;
-}
-
-/**************HEADER CLASS**************/
-
-.codrops-header {
-    padding: 2em 1em 4em;
-    text-align: center;
-}
-
-.codrops-header h1 {
-    margin: 0.5em 0 0;
-    letter-spacing: -1px;
-    font-size: 3em;
-    line-height: 1;
-}
-
-.codrops-header h1 span {
-    display: block;
-    padding: 0.5em 0 1em;
-    color: #999;
-    font-weight: normal;
-    font-size: 0.45em;
-}
-
-
-/**************CONTENT CLASS**************/
-
-.content {
+.content 
+{
     width: 100%;
     max-width: 560px;
     text-align: center;
@@ -195,35 +387,71 @@ a:focus {
 }
 
 
-.box {
-    background-color: #dfc8ca;
+.box 
+{
+    background-color: #1F2739;
     padding: 2.25rem 1.25rem;
 }
 
-.box + .box {
+.box + .box 
+{
     margin-top: 2.5rem;
 }
 
-.button {
- background-color: #CD5C5C;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-  
-    cursor: pointer;
-    position:relative;
-    top: 20px;
-    
+/*Font class for custom file input*/
 
+*,
+*:after,
+*:before 
+{
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.button:hover {
-    background-color: #f44336;
-    color: white;
+.clearfix:before,
+.clearfix:after 
+{
+  display: table;
+  content: '';
 }
+
+.clearfix:after 
+{
+  clear: both;
+}
+
+
+
+a {
+  outline: none;
+  color: #d3394c;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus 
+{
+  color: #722040;
+}
+
+.hidden 
+{
+  position: absolute;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
