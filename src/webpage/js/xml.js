@@ -1,3 +1,4 @@
+
 var fName = null;
 var fData = null;
 var espURL = "http://" + location.host;
@@ -78,15 +79,16 @@ function flashFile(filename)
 	xhr.send();
 }
 
-function getFileRow(filename, filesize) 
-{
-	var row = document.createElement("div");
-	row.id = "Row";
-	row.appendChild(getTableCell(filename, "W200"));
-	row.appendChild(getTableCell(filesize, "W100"));
-	row.appendChild(getCmdOption("Flash", "W50", filename));
-	row.appendChild(getCmdOption("&nbsp;", "W50", filename));
-	row.appendChild(getCmdOption("Delete", "W50", filename));
 
-	return row;
+function stageFile(fName, option) // staging selected file for flash/delete
+{
+	if(option == 1)
+	{
+		flashFile(fName);
+	}
+	else
+	{
+		deleteFile(fName);
+	}
 }
+
