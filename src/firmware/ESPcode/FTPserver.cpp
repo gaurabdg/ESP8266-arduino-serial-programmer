@@ -14,7 +14,7 @@ FTPserver::FTPserver(int reset)
 void FTPserver::Index(WiFiClient* client)
 {
   SPIFFS.begin();
-  File file = SPIFFS.open("", "r"); // to do  if gzip or not 
+  File file = SPIFFS.open("/index.html", "r"); // to do  if gzip or not 
 
   if(file) 
   {
@@ -23,7 +23,7 @@ void FTPserver::Index(WiFiClient* client)
     byte buffer[1024];
     int i = 0;
     
-    client->print(SendHeader(true)); //depends on encoding
+    client->print(SendHeader(false)); //depends on encoding
     while(fsize > 0) 
     {
       i = (fsize < 1024) ? fsize : 1024;
