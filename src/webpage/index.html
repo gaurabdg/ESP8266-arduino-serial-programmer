@@ -30,14 +30,15 @@
                </strong>
             </label>
          </div>
-         <button class = "btn draw-upborder" name="uploadDiv">
+         <button class = "btn draw-upborder" id="up" onclick="UploadFile()">
          Upload
          </button>
-         <button class="btn draw-cancelborder" name="cancelDiv">
+         <button class="btn draw-cancelborder" id="cancel">
          Cancel
          </button>
       </div>
-      <table id="table" class="container">
+      <div>
+      	<table id="table" class="container">
          <thead>
             <tr>
                <th>
@@ -50,16 +51,28 @@
          </thead>
          <tbody>
             <tr>
-               <td>Filename1</td>
-               <td>Filesize1</td>
+               <td>No file available in <strong>SPIFFS</strong>.
+               <em>Choose a file</em> and <em>upload</em> it!</td>
+               <td> </td>
             </tr>
-            <tr>
-               <td>Filename2</td>
-               <td>Filesize2</td>
-            </tr>
+
          </tbody>
       </table>
-      <script src="js/tweaks.js"></script>
+      </div>
+      <div id="SBSright">
+      <span style="display: inline-block; width: 200px; height: 70px; padding-left: 20px; padding-top: 50px; padding-bottom: 9px;">
+      <button class="btn draw-upborder" id="flash">
+      	Flash Sketch
+      </button>
+
+      <button class="btn draw-cancelborder" id="delete">
+      	Remove File
+      </button>
+      	
+      </span>
+      </div>
+      
+      
       <script src="js/xml.js"></script>
    </body>
 </html>

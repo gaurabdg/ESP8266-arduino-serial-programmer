@@ -444,11 +444,20 @@ a:focus
 }
 
 
+ #SBSright
+{
+    width:600px;
+    height:70px;
+    
+    margin-right:10px;
+    float:right;
+}
 
-
-
-
-
+.divider{
+    width:5px;
+    height:auto;
+    display:inline-block;
+}
 
 
 
