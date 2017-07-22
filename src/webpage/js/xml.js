@@ -50,6 +50,7 @@ function fetchFileList()
 		if(xhr.readyState == 4 && xhr.status == 200) //done & success
 		{
 			DisplayDirectory(xhr.responseText);
+			alert("rcv");
    		} 
    		else 
    		{
