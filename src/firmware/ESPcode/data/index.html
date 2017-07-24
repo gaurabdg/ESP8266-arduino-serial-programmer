@@ -1,563 +1,69 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
-   <head>
-      <meta charset="UTF-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>ESP8266 Arduino Serial Uploader</title>
-      <meta name="description" content="SPIFFS File Browser" />
-      <meta name="keywords" content="esp8266, arduino, serial, programmer" />
-      <style>
-         /* MAIN */
-         @charset "UTF-8";
-         @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
-         body {
-         font-family: 'Open Sans', sans-serif;
-         font-weight: 300;
-         line-height: 1.42em;
-         color: #A7A1AE;
-         background-color: #1F2739;
-         }
-         h1 {
-         font-size: 3em;
-         font-weight: 300;
-         line-height: 1em;
-         text-align: center;
-         color: #4DC3FA;
-         }
-         h2 {
-         font-size: 1em;
-         font-weight: 300;
-         text-align: center;
-         display: block;
-         line-height: 1em;
-         padding-bottom: 2em;
-         color: #FB667A;
-         }
-         h2 a {
-         font-weight: 700;
-         text-transform: uppercase;
-         color: #FB667A;
-         text-decoration: none;
-         }
-         .blue {
-         color: #185875;
-         }
-         .yellow {
-         color: #FFF842;
-         white-space: nowrap;
-         display: inline-block;
-         }
-         /* Buttons Class */
-         @media (max-width: 800px) {
-         .container td:nth-child(4),
-         .container th:nth-child(4) {
-         display: none;
-         }
-         }
-         /*Buttons for Upload & Cancel*/
-         .draw-upborder {
-         box-shadow: inset 0 0 0 4px #58afd1;
-         color: #58afd1;
-         transition: color 0.25s 0.08333s;
-         position: relative;
-         }
-         .draw-upborder::before,
-         .draw-upborder::after {
-         border: 0 solid transparent;
-         box-sizing: border-box;
-         content: '';
-         pointer-events: none;
-         position: absolute;
-         width: 0;
-         height: 0;
-         bottom: 0;
-         right: 0;
-         }
-         .draw-upborder::before {
-         border-bottom-width: 4px;
-         border-left-width: 4px;
-         }
-         .draw-upborder::after {
-         border-top-width: 4px;
-         border-right-width: 4px;
-         }
-         .draw-upborder:hover {
-         color: #ffe593;
-         }
-         .draw-upborder:hover::before,
-         .draw-upborder:hover::after {
-         border-color: #ffe593;
-         transition: border-color 0s, width 0.25s, height 0.25s;
-         width: 100%;
-         height: 100%;
-         }
-         .draw-upborder:hover::before {
-         transition-delay: 0s, 0s, 0.25s;
-         }
-         .draw-upborder:hover::after {
-         transition-delay: 0s, 0.25s, 0s;
-         }
-         .draw-cancelborder {
-         box-shadow: inset 0 0 0 4px #58afd1;
-         color: #58afd1;
-         transition: color 0.25s 0.08333s;
-         position: relative;
-         }
-         .draw-cancelborder::before,
-         .draw-cancelborder::after {
-         border: 0 solid transparent;
-         box-sizing: border-box;
-         content: '';
-         pointer-events: none;
-         position: absolute;
-         width: 0;
-         height: 0;
-         bottom: 0;
-         right: 0;
-         }
-         .draw-cancelborder::before {
-         border-bottom-width: 4px;
-         border-left-width: 4px;
-         }
-         .draw-cancelborder::after {
-         border-top-width: 4px;
-         border-right-width: 4px;
-         }
-         .draw-cancelborder:hover {
-         color: #993d3d;
-         }
-         .draw-cancelborder:hover::before,
-         .draw-cancelborder:hover::after {
-         border-color: #993d3d;
-         transition: border-color 0s, width 0.25s, height 0.25s;
-         width: 100%;
-         height: 100%;
-         }
-         .draw-cancelborder:hover::before {
-         transition-delay: 0s, 0s, 0.25s;
-         }
-         .draw-cancelborder:hover::after {
-         transition-delay: 0s, 0.25s, 0s;
-         }
-         .btn {
-         background: none;
-         border: none;
-         cursor: pointer;
-         line-height: 1.5;
-         font: 700 1.2rem 'Roboto Slab', sans-serif;
-         padding: 1em 2em;
-         letter-spacing: 0.05rem;
-         }
-         .btn:focus {
-         outline: 2px dotted #55d7dc;
-         }
-         /* Table Class  */
-         .container th h1 {
-         font-weight: bold;
-         font-size: 1em;
-         text-align: left;
-         color: #185875;
-         }
-         .container td {
-         font-weight: normal;
-         font-size: 1em;
-         -webkit-box-shadow: 0 2px 2px -2px #0E1119;
-         -moz-box-shadow: 0 2px 2px -2px #0E1119;
-         box-shadow: 0 2px 2px -2px #0E1119;
-         }
-         .container {
-         text-align: left;
-         overflow: hidden;
-         width: 50%;
-         margin-left: 2cm;
-         display: table;
-         padding: 0 0 0 0;
-         }
-         .container td,
-         .container th {
-         padding-bottom: 2%;
-         padding-top: 2%;
-         padding-left: 2%;
-         }
-         .selected {
-         color: red;
-         }
-         .container tr:nth-child(odd) {
-         background-color: #323C50;
-         cursor: pointer;
-         }
-         .container tr:nth-child(even) {
-         background-color: #2C3446;
-         cursor: pointer;
-         }
-         .container th {
-         background-color: #1F2739;
-         }
-         .container td:first-child {
-         color: #FB667A;
-         }
-         .container td:second-child {
-         color: #d1b8bb;
-         }
-         .container tr:hover {
-         background-color: #464A52;
-         -webkit-box-shadow: 0 6px 6px -6px #0E1119;
-         -moz-box-shadow: 0 6px 6px -6px #0E1119;
-         box-shadow: 0 6px 6px -6px #0E1119;
-         }
-         /* Custom CSS to hide the ugly default file input button */
-         .js .inputfile {
-         width: 0.1px;
-         height: 0.1px;
-         opacity: 0;
-         overflow: hidden;
-         position: absolute;
-         z-index: -1;
-         }
-         .inputfile + label {
-         max-width: 80%;
-         font-size: 1.25rem;
-         /* 20px */
-         font-weight: 700;
-         text-overflow: ellipsis;
-         white-space: nowrap;
-         cursor: pointer;
-         display: inline-block;
-         overflow: hidden;
-         padding: 0.625rem 1.25rem;
-         /* 10px 20px */
-         }
-         .no-js .inputfile + label {
-         display: none;
-         }
-         .inputfile:focus + label,
-         .inputfile.has-focus + label {
-         outline: 1px dotted #000;
-         outline: -webkit-focus-ring-color auto 5px;
-         }
-         .inputfile + label * {
-         /* pointer-events: none; */
-         /* in case of FastClick lib use */
-         }
-         .inputfile + label svg {
-         width: 1em;
-         height: 1em;
-         vertical-align: middle;
-         fill: currentColor;
-         margin-top: -0.25em;
-         /* 4px */
-         margin-right: 0.25em;
-         /* 4px */
-         }
-         .inputfile_fin + label {
-         color: #1F2739;
-         }
-         .inputfile_fin + label {
-         border: 1px solid #1F2739;
-         background-color: #f1e5e6;
-         padding: 0;
-         }
-         .inputfile_fin:focus + label,
-         .inputfile_fin.has-focus + label,
-         .inputfile_fin + label:hover {
-         border-color: #d17f38;
-         }
-         .inputfile_fin + label span,
-         .inputfile_fin + label strong {
-         padding: 0.625rem 1.25rem;
-         /* 10px 20px */
-         }
-         .inputfile_fin + label span {
-         width: 200px;
-         min-height: 2em;
-         display: inline-block;
-         text-overflow: ellipsis;
-         white-space: nowrap;
-         overflow: hidden;
-         vertical-align: top;
-         }
-         .inputfile_fin + label strong {
-         height: 100%;
-         color: #f1e5e6;
-         background-color: #1F2739;
-         display: inline-block;
-         }
-         .inputfile_fin:focus + label strong,
-         .inputfile_fin.has-focus + label strong,
-         .inputfile_fin + label:hover strong {
-         background-color: #d17f38;
-         }
-         @media screen and (max-width: 50em) {
-         .inputfile_fin + label strong {
-         display: block;
-         }
-         }
-         /*File Input Content */
-         .content {
-         width: 100%;
-         max-width: 560px;
-         text-align: center;
-         margin: 0 auto;
-         padding: 0 0 3em 0;
-         }
-         .box {
-         background-color: #1F2739;
-         padding: 2.25rem 1.25rem;
-         }
-         .box + .box {
-         margin-top: 2.5rem;
-         }
-         /*Font class for custom file input*/
-         *,
-         *:after,
-         *:before {
-         -webkit-box-sizing: border-box;
-         box-sizing: border-box;
-         }
-         .clearfix:before,
-         .clearfix:after {
-         display: table;
-         content: '';
-         }
-         .clearfix:after {
-         clear: both;
-         }
-         a {
-         outline: none;
-         color: #d3394c;
-         text-decoration: none;
-         }
-         a:hover,
-         a:focus {
-         color: #722040;
-         }
-         .hidden {
-         position: absolute;
-         overflow: hidden;
-         width: 0;
-         height: 0;
-         pointer-events: none;
-         }
-         #SBSright {
-         width: 100%;
-         max-width: 560px;
-         text-align: center;
-         margin: 0 auto;
-         padding: 3em 3em 3em 3em;
-         float: right;
-         }
-         .divider {
-         width: 5px;
-         height: auto;
-         display: inline-block;
-         }
-      </style>
-      <script>
-         (function(e, t, n)
-         {
-             var r = e.querySelectorAll("html")[0];
-             r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2")
-         })(document, window, 0);
-      </script>
-   </head>
-   <body>
-      <h1><span class="blue">&lt;</span>ESP8266 based Arduino Sketch Uploader<span class="blue">&gt;</span> 
-         <span class="yellow">SPIFFS File Browser</span>
-      </h1>
-      <h2>Created with ❤ by<a href="http://gaurabdg.wordpress.com" target="_blank"> Gaurab Dasgupta</a></h2>
-      <div class="content">
-         <div class="box">
-            <input type="file" name="file-7[]" id="file-7" class="inputfile inputfile_fin" data-multiple-caption="{count} files selected" multiple />
-            <label for="file-7">
-               <span></span>
-               <strong>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
-                     <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
-                  </svg>
-                  Choose a File
-               </strong>
-            </label>
-         </div>
-         <button class="btn draw-upborder" id="up">
-         Upload
-         </button>
-         <button class="btn draw-cancelborder" id="cancel">
-         Cancel
-         </button>
-      </div>
-      <div style="float: left;">
-         <table id="table" class="container">
-            <thead>
-               <tr>
-                  <th>
-                     <h1>File</h1>
-                  </th>
-                  <th>
-                     <h1>Size</h1>
-                  </th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>SPIFFS empty mnmnnmnmnmnmmn</td>
-                  <td> </td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="SBSright">
-         <button class="btn draw-upborder" id="flash">
-         Flash Sketch
-         </button>
-         <button class="btn draw-cancelborder" id="delete">
-         Remove File
-         </button>
-      </div>
-   </body>
-   <script>
-      var filename = null;
-      var fileData = null;
-      var host = location.host;
-      var espUrl = "http://" + host;
-      
-          function readSingleFile(e)
-          {
-              var file = e.target.files[0]; // return the file taht waws uploaded
-              filename = file.name;
-              if (!file)
-              {
-                  return;
-              }
-              var reader = new FileReader();
-              reader.onload = function(e)
-              {
-                  fileData = e.target.result;
-              };
-              reader.readAsText(file);
-      
-          document.getElementById("up").addEventListener("click", UploadFile, false); //bubbling?
-          }
-      
-      
-      
-      function GenerateRows(filename, filesize)
-      {
-          
-          var table = document.getElementById("table");
-      
-          var count = table.rows.length;
-          var row = table.insertRow(count);
-          
-          var cell1 = row.insertCell(0);
-          var cell2 = row.insertCell(1);
-          cell1.innerHTML = filename;
-          cell2.innerHTML = filesize;
-      }
-      
-      
-      function DisplayDirectory(requestList)
-      {
-          var listData = requestList.split("\n");
-      
-      
-          var totalsize = 0;
-          var filecount = 0;
-      
-          for(var x = 0; x < listData.length; x++)
-          {
-              if (listData[x].length < 5)
-              {
-                  continue;
-              }
-              filecount++;
-              var elements = listData[x].split(";");
-              totalsize += parseInt(elements[1]);
-      
-              GenerateRows(elements[0], elements[1]);
-              
-          }
-          
-      
-      }
-      
-      function fetchFileList()
-      {
-          var xhr = new XMLHttpRequest();
-          var url = espUrl + "/files";
-      
-          xhr.open("GET", url, true);
-          xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-          xhr.onreadystatechange = function()
-          {
-              if (xhr.readyState == 4 && xhr.status == 200) //done & success
-              {
-                  DisplayDirectory(xhr.responseText);
-                  
-              }
-              else
-              {
-                alert("error");
-              }
-              
-          };
-      
-          xhr.send();
-      }
-      
-      function UploadData()
-      {
-          var xhr = new XMLHttpRequest();
-          var url = espUrl + "/upload&" + filename;
-          var params = fileData;
-          xhr.open("POST", url, true);
-          xhr.send(params);
-      }
-      
-      function UploadFile()
-      {
-          UploadData();
-          setTimeout(fetchFileList, 2000);
-      
-      }
-      
-      
-       /*
-         File Input snippet
-         By Osvaldas Valutis, www.osvaldas.info
-         Available for use under the MIT License
-      */
-      
-      var inputs = document.querySelectorAll('.inputfile');
-      Array.prototype.forEach.call(inputs, function(input)
-      {
-          var label = input.nextElementSibling,
-              labelVal = label.innerHTML;
-      
-          input.addEventListener('change', function(e)
-          {
-              var fileName = '';
-              if (this.files && this.files.length > 1)
-                  fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
-              else
-                  fileName = e.target.value.split('\\').pop();
-      
-              if (fileName)
-                  label.querySelector('span').innerHTML = fileName;
-              else
-                  label.innerHTML = labelVal;
-          });
-      });
-      
-      
-      
-      document.getElementById('file-7').addEventListener('change', readSingleFile, false);
-      
-      
-      
-      window.onload = function()
-      {
-          fetchFileList();
-      };
-   </script>
+<html lang=en class=no-js>
+<head>
+<meta charset=UTF-8 />
+<meta http-equiv=X-UA-Compatible content="IE=edge">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<title>ESP8266 Arduino Serial Uploader</title>
+<meta name=description content="SPIFFS File Browser" />
+<meta name=keywords content="esp8266, arduino, serial, programmer" />
+<style>@charset "UTF-8";@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);body{font-family:'Open Sans',sans-serif;font-weight:300;line-height:1.42em;color:#a7a1ae;background-color:#1f2739}h1{font-size:3em;font-weight:300;line-height:1em;text-align:center;color:#4dc3fa}h2{font-size:1em;font-weight:300;text-align:center;display:block;line-height:1em;padding-bottom:2em;color:#fb667a}h2 a{font-weight:700;text-transform:uppercase;color:#fb667a;text-decoration:none}.blue{color:#185875}.yellow{color:#fff842;white-space:nowrap;display:inline-block}@media(max-width:800px){.container td:nth-child(4),.container th:nth-child(4){display:none}}.draw-upborder{box-shadow:inset 0 0 0 4px #58afd1;color:#58afd1;transition:color .25s .08333s;position:relative}.draw-upborder::before,.draw-upborder::after{border:0 solid transparent;box-sizing:border-box;content:'';pointer-events:none;position:absolute;width:0;height:0;bottom:0;right:0}.draw-upborder::before{border-bottom-width:4px;border-left-width:4px}.draw-upborder::after{border-top-width:4px;border-right-width:4px}.draw-upborder:hover{color:#ffe593}.draw-upborder:hover::before,.draw-upborder:hover::after{border-color:#ffe593;transition:border-color 0s,width .25s,height .25s;width:100%;height:100%}.draw-upborder:hover::before{transition-delay:0s,0s,0.25s}.draw-upborder:hover::after{transition-delay:0s,0.25s,0s}.draw-cancelborder{box-shadow:inset 0 0 0 4px #58afd1;color:#58afd1;transition:color .25s .08333s;position:relative}.draw-cancelborder::before,.draw-cancelborder::after{border:0 solid transparent;box-sizing:border-box;content:'';pointer-events:none;position:absolute;width:0;height:0;bottom:0;right:0}.draw-cancelborder::before{border-bottom-width:4px;border-left-width:4px}.draw-cancelborder::after{border-top-width:4px;border-right-width:4px}.draw-cancelborder:hover{color:#993d3d}.draw-cancelborder:hover::before,.draw-cancelborder:hover::after{border-color:#993d3d;transition:border-color 0s,width .25s,height .25s;width:100%;height:100%}.draw-cancelborder:hover::before{transition-delay:0s,0s,0.25s}.draw-cancelborder:hover::after{transition-delay:0s,0.25s,0s}.btn{background:0;border:0;cursor:pointer;line-height:1.5;font:700 1.2rem 'Roboto Slab',sans-serif;padding:1em 2em;letter-spacing:.05rem}.btn:focus{outline:2px dotted #55d7dc}.container th h1{font-weight:bold;font-size:1em;text-align:left;color:#185875}.container td{font-weight:normal;font-size:1em;-webkit-box-shadow:0 2px 2px -2px #0e1119;-moz-box-shadow:0 2px 2px -2px #0e1119;box-shadow:0 2px 2px -2px #0e1119}.container{text-align:left;overflow:hidden;width:50%;margin-left:2cm;display:table;padding:0}.container td,.container th{padding-bottom:2%;padding-top:2%;padding-left:2%}.container tr:nth-child(odd){background-color:#323c50;cursor:pointer}.container tr:nth-child(even){background-color:#2c3446;cursor:pointer}.container th{background-color:#1f2739}.container td:first-child{color:#fb667a}.container td:second-child{color:#d1b8bb}.container tr:hover{background-color:#464a52;-webkit-box-shadow:0 6px 6px -6px #0e1119;-moz-box-shadow:0 6px 6px -6px #0e1119;box-shadow:0 6px 6px -6px #0e1119}.container tbody tr.highlight td{background-color:#16bc19}.selected{color:red}.js .inputfile{width:.1px;height:.1px;opacity:0;overflow:hidden;position:absolute;z-index:-1}.inputfile+label{max-width:80%;font-size:1.25rem;font-weight:700;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;display:inline-block;overflow:hidden;padding:.625rem 1.25rem}.no-js .inputfile+label{display:none}.inputfile:focus+label,.inputfile.has-focus+label{outline:1px dotted #000;outline:-webkit-focus-ring-color auto 5px}.inputfile+label svg{width:1em;height:1em;vertical-align:middle;fill:currentColor;margin-top:-0.25em;margin-right:.25em}.inputfile_fin+label{color:#1f2739}.inputfile_fin+label{border:1px solid #1f2739;background-color:#f1e5e6;padding:0}.inputfile_fin:focus+label,.inputfile_fin.has-focus+label,.inputfile_fin+label:hover{border-color:#d17f38}.inputfile_fin+label span,.inputfile_fin+label strong{padding:.625rem 1.25rem}.inputfile_fin+label span{width:200px;min-height:2em;display:inline-block;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;vertical-align:top}.inputfile_fin+label strong{height:100%;color:#f1e5e6;background-color:#1f2739;display:inline-block}.inputfile_fin:focus+label strong,.inputfile_fin.has-focus+label strong,.inputfile_fin+label:hover strong{background-color:#d17f38}@media screen and (max-width:50em){.inputfile_fin+label strong{display:block}}.content{width:100%;max-width:560px;text-align:center;margin:0 auto;padding:0 0 3em 0}.box{background-color:#1f2739;padding:2.25rem 1.25rem}.box+.box{margin-top:2.5rem}*,*:after,*:before{-webkit-box-sizing:border-box;box-sizing:border-box}.clearfix:before,.clearfix:after{display:table;content:''}.clearfix:after{clear:both}a{outline:0;color:#d3394c;text-decoration:none}a:hover,a:focus{color:#722040}.hidden{position:absolute;overflow:hidden;width:0;height:0;pointer-events:none}#SBSright{width:100%;max-width:560px;text-align:center;margin:0 auto;padding:3em 3em 3em 3em;float:right}.divider{width:5px;height:auto;display:inline-block}</style>
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js></script>
+<script>(function(c,a,d){var b=c.querySelectorAll("html")[0];b.className=b.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+</head>
+<body>
+<h1><span class=blue>&lt;</span>ESP8266 based Arduino Sketch Uploader<span class=blue>&gt;</span>
+<span class=yellow>SPIFFS File Browser</span>
+</h1>
+<h2>Created with ❤ by<a href=http://gaurabdg.wordpress.com target=_blank> Gaurab Dasgupta</a></h2>
+<div class=content>
+<div class=box>
+<input type=file name=file-7[] id=file-7 class="inputfile inputfile_fin" data-multiple-caption="{count} files selected" multiple />
+<label for=file-7>
+<span></span>
+<strong>
+<svg xmlns=http://www.w3.org/2000/svg width=20 height=17 viewBox="0 0 20 17">
+<path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/>
+</svg>
+Choose a File
+</strong>
+</label>
+</div>
+<button class="btn draw-upborder" id=up>
+Upload
+</button>
+<button class="btn draw-cancelborder" id=cancel>
+Cancel
+</button>
+</div>
+<div>
+<table id=table onclick=StageFile(event) class=container>
+<thead>
+<tr>
+<th>
+<h1>File</h1>
+</th>
+<th>
+<h1>Size</h1>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> </td>
+<td> </td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id=SBSright>
+<button class="btn draw-upborder" id=flash>
+Flash Sketch
+</button>
+<button class="btn draw-cancelborder" id=delete>
+Remove File
+</button>
+</div>
+</body>
+<script>var filename=null;var fileData=null;var fileStg=null;var host=location.host;var espUrl="http://"+host;function readSingleFile(c){var b=c.target.files[0];filename=b.name;if(!b){return}var a=new FileReader();a.onload=function(d){fileData=d.target.result};a.readAsText(b);document.getElementById("up").addEventListener("click",UploadFile,false)}function GenerateRows(b,d){var f=document.getElementById("table");var e=f.rows.length;var g=f.insertRow(e);var c=g.insertCell(0);var a=g.insertCell(1);c.innerHTML=b;a.innerHTML=d}function DisplayDirectory(b){var d=b.split("\n");if(d.length==0){alert("No data")}for(var a=0;a<d.length;a++){if(d[a].length<5){continue}var c=d[a].split(";");var e=c[0];if(e.startsWith("/hex")){GenerateRows(c[0],c[1])}}}function fetchFileList(){var b=new XMLHttpRequest();var a=espUrl+"/files";b.open("GET",a,true);b.setRequestHeader("Content-type","application/x-www-form-urlencoded");b.onreadystatechange=function(){if(b.readyState==4&&b.status==200){DisplayDirectory(b.responseText)}else{alert(lite)}};b.send()}function UploadData(){var c=new XMLHttpRequest();var a=espUrl+"/upload&"+filename;var b=fileData;c.open("POST",a,true);c.send(b)}function UploadFile(){UploadData();setTimeout(fetchFileList,2000)}function deleteFile(a){var c=new XMLHttpRequest();var b=espUrl+"/delete&"+a;c.open("GET",b,true);c.setRequestHeader("Content-type","application/x-www-form-urlencoded");c.onreadystatechange=function(){if(c.readyState==4&&c.status==200){DisplayDirectory(c.responseText)}else{aler(lite)}};c.send()}function flashFile(a){var c=new XMLHttpRequest();var b=espUrl+"/flash&"+a;c.open("GET",b,true);c.setRequestHeader("Content-type","application/x-www-form-urlencoded");c.onreadystatechange=function(){if(c.readyState==4&&c.status==200){DisplayDirectory(c.responseText)}};c.send()}var inputs=document.querySelectorAll(".inputfile");Array.prototype.forEach.call(inputs,function(a){var b=a.nextElementSibling,c=b.innerHTML;a.addEventListener("change",function(d){var f="";if(this.files&&this.files.length>1){f=(this.getAttribute("data-multiple-caption")||"").replace("{count}",this.files.length)}else{f=d.target.value.split("\\").pop()}if(f){b.querySelector("span").innerHTML=f}else{b.innerHTML=c}})});$("#table").on("click","tbody tr",function(a){$(this).addClass("highlight").siblings().removeClass("highlight")});function StageFile(a){fileStg=a.target.innerText;alert(fileStg+" is staged to be flashed/deleted")}document.getElementById("flash").addEventListener("click",function(){flashFile(fileStg)});document.getElementById("delete").addEventListener("click",function(){deleteFile(fileStg)});document.getElementById("file-7").addEventListener("change",readSingleFile,false);window.onload=function(){fetchFileList()};</script>
 </html>
